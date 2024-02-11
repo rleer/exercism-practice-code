@@ -1,58 +1,33 @@
 using System;
+using System.Linq;
 
 public static class TelemetryBuffer
 {
-    private static (int size, bool isSigned) GetPayloadInfo(long reading)
-    {
-        switch (reading)
-        {
-            case > UInt32.MaxValue:
-                return (8, true);
-            case > Int32.MaxValue:
-                return (4, false);
-            case > UInt16.MaxValue:
-                return (4 , true);
-            case >= 0:
-                return (2, false);
-            case >= Int16.MinValue:
-                return (2, true);
-            case >= Int32.MinValue:
-                return (4, true);
-            case < Int32.MinValue:
-                return (8, true);
-        }
-    }
-    
     public static byte[] ToBuffer(long reading)
     {
-        var buffer = new byte[9];
-        var payloadInfo = GetPayloadInfo(reading);
-        var payload = BitConverter.GetBytes(reading)[..payloadInfo.size];
-        BitConverter.GetBytes(payloadInfo.isSigned ? (256 - payloadInfo.size) : payloadInfo.size).CopyTo(buffer, 0);
-        payload.CopyTo(buffer, 1);
-        return buffer;
+        var prefixAndPaylod = reading switch
+        {
+            > UInt32.MaxValue => BitConverter.GetBytes(reading).Prepend((byte)(256 - 8)),
+            > Int32.MaxValue => BitConverter.GetBytes((uint)reading).Prepend((byte)(4)),
+            > UInt16.MaxValue => BitConverter.GetBytes((int)reading).Prepend((byte)(256 - 4)),
+            >= UInt16.MinValue => BitConverter.GetBytes((ushort)reading).Prepend((byte)(2)),
+            >= Int16.MinValue => BitConverter.GetBytes((short)reading).Prepend((byte)(256 - 2)),
+            >= Int32.MinValue => BitConverter.GetBytes((int)reading).Prepend((byte)(256 - 4)),
+            < Int32.MinValue => BitConverter.GetBytes(reading).Prepend((byte)(256 - 8)),
+        };
+
+        return prefixAndPaylod.Concat(new byte[9 - prefixAndPaylod.Count()]).ToArray();
     }
 
-    public static long FromBuffer(byte[] buffer)
+    public static long FromBuffer(byte[] buffer) => buffer[0] switch
     {
-        var prefixByte = buffer[0];
-        if (prefixByte is > 8 and < 256 - 8) return 0;
-        var isSigned = prefixByte > 8;
-        var payloadSize = isSigned ? 256 - prefixByte : prefixByte;
-        switch (payloadSize, isSigned)
-        { 
-            case (8 , _):
-                return BitConverter.ToInt64(buffer, 1);
-            case (4, false):
-                return BitConverter.ToUInt32(buffer[1..(payloadSize + 1)], 0);
-            case (4, true):
-                return BitConverter.ToInt32(buffer[1..(payloadSize + 1)], 0);
-            case (2, false):
-                return BitConverter.ToUInt16(buffer[1..(payloadSize + 1)], 0);
-            case (2, true):
-                return BitConverter.ToInt16(buffer[1..(payloadSize + 1)], 0);
-            default:
-                return 0;
-        }
-    }
+        // long, uint, ushort
+        256 - 8 or 4 or 2 => BitConverter.ToInt64(buffer, 1),
+        // int
+        256 - 4 => BitConverter.ToInt32(buffer, 1),
+        // short
+        256 - 2 => BitConverter.ToInt16(buffer, 1),
+        // invalid prefix byte
+        _ => 0,
+    };
 }
