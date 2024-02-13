@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RollTheDie", "roll-the-die\RollTheDie.csproj", "{137126D7-77D2-4460-AE49-52E3B690915A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballMatchReports", "football-match-reports\FootballMatchReports.csproj", "{0963475E-964B-48E6-BEA9-23BBB2E66EEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{137126D7-77D2-4460-AE49-52E3B690915A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{137126D7-77D2-4460-AE49-52E3B690915A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{137126D7-77D2-4460-AE49-52E3B690915A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{137126D7-77D2-4460-AE49-52E3B690915A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0963475E-964B-48E6-BEA9-23BBB2E66EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0963475E-964B-48E6-BEA9-23BBB2E66EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0963475E-964B-48E6-BEA9-23BBB2E66EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0963475E-964B-48E6-BEA9-23BBB2E66EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
