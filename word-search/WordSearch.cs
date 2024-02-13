@@ -9,10 +9,13 @@ var grid =
 
 WordSearch ws = new WordSearch(grid);
 ws.PrintGrid();
-var result = ws.Search(["heb", "beh", "abc", "jhg", "db", "aej"]);
+var result = ws.Search(["heb", "beh", "abc", "jhg", "db", "aej", "jgh"]);
 foreach (var kvp in result)
 {
-    Console.WriteLine($"{kvp.Key}: ({kvp.Value!.Value.Item1.Item1}, {kvp.Value!.Value.Item1.Item2}), ({kvp.Value!.Value.Item2.Item1}, {kvp.Value!.Value.Item2.Item2})");
+    Console.Write($"{kvp.Key}: ");
+    if (kvp.Value.HasValue)
+        Console.Write($"({kvp.Value!.Value.Item1.Item1}, {kvp.Value!.Value.Item1.Item2}), ({kvp.Value!.Value.Item2.Item1}, {kvp.Value!.Value.Item2.Item2})");
+    Console.Write('\n');
 }
 Console.WriteLine("end");
 
@@ -24,7 +27,6 @@ public class WordSearch
     {
         _grid = grid.Split('\n').Select(s => s.ToCharArray()).ToArray();
     }
-
     
     public Dictionary<string, ((int, int), (int, int))?> Search(string[] wordsToSearchFor)
     {
@@ -37,9 +39,15 @@ public class WordSearch
                 {
                     var endCord = SearchInGrid(targetWord, xCord, yCord);
                     if (endCord != null)
-                        searchResult[targetWord] = ((xCord, yCord), (endCord.Value.endX, endCord.Value.endY));
+                        searchResult[targetWord] = ((xCord + 1, yCord + 1), (endCord.Value.endX + 1, endCord.Value.endY + 1));
                 }
             }
+        }
+
+        foreach (var word in wordsToSearchFor)
+        {
+            if (!searchResult.ContainsKey(word))
+                searchResult[word] = null;
         }
         return searchResult;
     }
@@ -49,53 +57,53 @@ public class WordSearch
     private (int endX, int endY)? SearchInGrid(string target, int startX, int startY)
     {
         // to top
-        for (int i = 0, y = startY; i < target.Length && y >= 0; i++, y--)
+        for (int i = 0, y = startY; i < target.Length && inBounds(startX, y); i++, y--)
         {
             if (target[i] != _grid[y][startX]) break;
             if (i == target.Length - 1) return (startX, y);
         }
         // to bottom
-        for (int i = 0, y = startY; i < target.Length && y < _grid.Length; i++, y++)
+        for (int i = 0, y = startY; i < target.Length && inBounds(startX, y); i++, y++)
         {
             if (target[i] != _grid[y][startX]) break;
             if (i == target.Length - 1) return (startX, y);
         }
         // to right
-        for (int i = 0, x = startX; i < target.Length && x < _grid[startY].Length; i++, x++)
+        for (int i = 0, x = startX; i < target.Length && inBounds(x, startY); i++, x++)
         {
             if (target[i] != _grid[startY][x]) break;
             if (i == target.Length - 1) return (x, startY);
         }
         // to left
-        for (int i = 0, x = startX; i < target.Length && x >= 0; i++, x--)
+        for (int i = 0, x = startX; i < target.Length && inBounds(x, startY); i++, x--)
         {
             if (target[i] != _grid[startY][x]) break;
             if (i == target.Length - 1) return (x, startY);
         }
         // to top-right
-        for (int i = 0, x = startX, y = startY; i < target.Length && y >= 0 && x < _grid[y].Length; i++, x++, y--)
+        for (int i = 0, x = startX, y = startY; i < target.Length && inBounds(x, y); i++, x++, y--)
         {
             if (target[i] != _grid[y][x]) break;
             if (i == target.Length - 1) return (x, y);
         }
         // to top-left
-        for (int i = 0, x = startX, y = startY; i < target.Length && y >= 0 && x >= 0; i++, x--, y--)
+        for (int i = 0, x = startX, y = startY; i < target.Length && inBounds(x, y); i++, x--, y--)
         {
             if (target[i] != _grid[y][x]) break;
             if (i == target.Length - 1) return (x, y);
         }
         // to bottom-right
-        for (int i = 0, x = startX, y = startY; i < target.Length && y < _grid.Length && x < _grid[y].Length; i++, x++, y++)
+        for (int i = 0, x = startX, y = startY; i < target.Length && inBounds(x, y); i++, x++, y++)
         {
             if (target[i] != _grid[y][x]) break;
             if (i == target.Length - 1) return (x, y);
         }
         // to bottom-left
-        for (int i = 0, x = startX, y = startY; i < target.Length && y < _grid.Length && x >= 0; i++, x--, y++)
+        for (int i = 0, x = startX, y = startY; i < target.Length && inBounds(x, y); i++, x--, y++)
         {
             if (target[i] != _grid[y][x]) break;
             if (i == target.Length - 1) return (x, y);
-        } 
+        }
         return null;
     }
     
