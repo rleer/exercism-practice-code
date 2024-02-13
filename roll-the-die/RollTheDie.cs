@@ -2,13 +2,10 @@ using System;
 
 public class Player
 {
-    public int RollDie()
-    {
-        throw new NotImplementedException("Please implement the Player.RollDie() method");
-    }
+    private Random rnd = new Random();
 
-    public double GenerateSpellStrength()
-    {
-        throw new NotImplementedException("Please implement the Player.GenerateSpellStrength() method");
-    }
+    public int RollDie() => rnd.Next(1, 19);
+
+    public double GenerateSpellStrength() => rnd.NextDouble() * 100;
+
 }
