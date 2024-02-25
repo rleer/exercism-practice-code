@@ -6,7 +6,7 @@ public static class CentralBank
     {
         try
         {
-            return checked($"{@base * multiplier}");
+            return checked(@base * multiplier).ToString();
         }
         catch (OverflowException)
         {
@@ -16,15 +16,15 @@ public static class CentralBank
 
     public static string DisplayGDP(float @base, float multiplier)
     {
-        var dom = multiplier * @base;
-        return float.IsInfinity(dom) ? "*** Too Big ***" : $"{dom}";
+        var gdp = multiplier * @base;
+        return float.IsInfinity(gdp) ? "*** Too Big ***" : gdp.ToString();
     }
 
     public static string DisplayChiefEconomistSalary(decimal salaryBase, decimal multiplier)
     {
         try
         {
-            return checked($"{salaryBase * multiplier}");
+            return (salaryBase * multiplier).ToString();
         }
         catch (OverflowException)
         {
