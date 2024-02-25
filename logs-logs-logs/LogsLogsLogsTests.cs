@@ -1,8 +1,6 @@
 using Exercism.Tests;
 using Xunit;
 
-namespace LogsLogsLogs;
-
 public class LogsLogsLogsTests
 {
     [Fact]
