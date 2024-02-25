@@ -1,16 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordSearch", "word-search\WordSearch.csproj", "{8279E560-58D2-4E4B-9DE9-D3395CA0064B}"
+# 
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogsLogsLogs", "logs-logs-logs\LogsLogsLogs.csproj", "{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8279E560-58D2-4E4B-9DE9-D3395CA0064B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8279E560-58D2-4E4B-9DE9-D3395CA0064B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8279E560-58D2-4E4B-9DE9-D3395CA0064B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8279E560-58D2-4E4B-9DE9-D3395CA0064B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Debug|x64.Build.0 = Debug|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Debug|x86.Build.0 = Debug|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Release|x64.ActiveCfg = Release|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Release|x64.Build.0 = Release|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Release|x86.ActiveCfg = Release|Any CPU
+		{43C1FFE6-A1D3-4FC7-A29D-94F0E85D33AC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
