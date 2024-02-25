@@ -18,11 +18,8 @@ public class WordSearch
         (-1,-1), // bottom-left
     };
     
-    public WordSearch(string grid)
-    {
-        _grid = grid.Split('\n').ToArray();
-    }
-    
+    public WordSearch(string grid) => _grid = grid.Split('\n');
+
     public Dictionary<string, ((int, int), (int, int))?> Search(string[] wordsToSearchFor)
     {
         var searchResult = wordsToSearchFor.ToDictionary<string, string,((int, int), (int, int))?> (key => key, _ => null);
@@ -33,6 +30,8 @@ public class WordSearch
             {
                 foreach (var targetWord in wordsToSearchFor)
                 {
+                    if (targetWord[0] != _grid[yCord][xCord])
+                        continue;
                     var endCord = SearchInGrid(targetWord, xCord, yCord);
                     if (endCord != null)
                         searchResult[targetWord] = ((xCord + 1, yCord + 1), (endCord.Value.endX + 1, endCord.Value.endY + 1));
