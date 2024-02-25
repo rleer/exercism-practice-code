@@ -2,10 +2,8 @@ using System;
 
 class WeighingMachine
 {
+    public int Precision { get; } 
     private double _weight;
-    private double _displayWeight;
-    
-    public int Precision { get; }
     public double Weight
     {
         get => _weight;
@@ -15,16 +13,10 @@ class WeighingMachine
             _weight = value;
         }
     }
-
     public double TareAdjustment { get; set; } = 5.0;
-
     public string DisplayWeight
     {
         get => $"{(_weight - TareAdjustment).ToString($"F{Precision}")} kg";
     }
-    
-    public WeighingMachine(int precision)
-    {
-        Precision = precision;
-    }
+    public WeighingMachine(int precision) => Precision = precision;
 }
