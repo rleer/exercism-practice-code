@@ -4,31 +4,29 @@ using System.Collections.Generic;
 public class WeatherStation
 {
     private Reading reading;
-    private List<DateTime> recordDates = new() { };
-    private List<decimal> temperatures = new() { };
+    private List<DateTime> recordDates = new();
 
     public void AcceptReading(Reading reading)
     {
         this.reading = reading;
         recordDates.Add(DateTime.Now);
-        temperatures.Add(reading.Temperature);
     }
 
     public void ClearAll()
     {
         reading = new Reading();
         recordDates.Clear();
-        temperatures.Clear();
     }
 
     public decimal LatestTemperature => reading.Temperature;
     public decimal LatestPressure => reading.Pressure;
     public decimal LatestRainfall => reading.Rainfall;
     public bool HasHistory => recordDates.Count > 1;
-    public Outlook ShortTermOutlook => reading.Equals(new Reading()) ? throw new ArgumentException() : reading.Temperature switch
+    public Outlook ShortTermOutlook => reading switch
     {
-        < 30m when reading.Pressure < 10m => Outlook.Cool,
-        > 50m => Outlook.Good,
+        _ when reading.Equals(new Reading()) => throw new ArgumentException(),
+        { Temperature: < 30m, Pressure: < 10m } => Outlook.Cool,
+        _ when reading.Temperature > 50m => Outlook.Good,
         _ => Outlook.Warm
     };
     
