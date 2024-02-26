@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class WeatherStation
 {
     private Reading reading;
-    private List<DateTime> recordDates = new List<DateTime>();
-    private List<decimal> temperatures = new List<decimal>();
+    private List<DateTime> recordDates = [];
+    private List<decimal> temperatures = [];
 
     public void AcceptReading(Reading reading)
     {
@@ -21,109 +21,29 @@ public class WeatherStation
         temperatures.Clear();
     }
 
-    public decimal LatestTemperature
+    public decimal LatestTemperature => reading.Temperature;
+    public decimal LatestPressure => reading.Pressure;
+    public decimal LatestRainfall => reading.Rainfall;
+    public bool HasHistory => recordDates.Count > 1;
+    public Outlook ShortTermOutlook => reading.Equals(new Reading()) ? throw new ArgumentException() : reading.Temperature switch
     {
-        get
+        < 30m when reading.Pressure < 10m => Outlook.Cool,
+        > 50m => Outlook.Good,
+        _ => Outlook.Warm
+    };
+    
+    public Outlook LongTermOutlook =>
+        reading.WindDirection switch
         {
-            return reading.Temperature;
-        }
-    }
+            WindDirection.Southerly => Outlook.Good,
+            WindDirection.Easterly when reading.Temperature > 20 => Outlook.Good,
+            WindDirection.Northerly => Outlook.Cool,
+            WindDirection.Easterly when reading.Temperature <= 20 => Outlook.Warm,
+            WindDirection.Westerly => Outlook.Rainy,
+            _ => throw new ArgumentException()
+        };
 
-    public decimal LatestPressure
-    {
-        get
-        {
-            return reading.Pressure;
-        }
-    }
-
-    public decimal LatestRainfall
-    {
-        get
-        {
-            return reading.Rainfall;
-        }
-    }
-
-    public bool HasHistory
-    {
-        get
-        {
-            if (recordDates.Count > 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
-    public Outlook ShortTermOutlook
-    {
-        get
-        {
-            if (reading.Equals(new Reading()))
-            {
-                throw new ArgumentException();
-            }
-            else
-            {
-                if (reading.Pressure < 10m && reading.Temperature < 30m)
-                {
-                    return Outlook.Cool;
-                }
-                else if (reading.Temperature > 50)
-                {
-                    return Outlook.Good;
-                }
-                else
-                {
-                    return Outlook.Warm;
-                }
-            }
-        }
-    }
-
-    public Outlook LongTermOutlook
-    {
-        get
-        {
-            if (reading.WindDirection == WindDirection.Southerly
-                || reading.WindDirection == WindDirection.Easterly
-                && reading.Temperature > 20)
-            {
-                return Outlook.Good;
-            }
-            if (reading.WindDirection == WindDirection.Northerly)
-            {
-                return Outlook.Cool;
-            }
-            if (reading.WindDirection == WindDirection.Easterly
-                && reading.Temperature <= 20)
-            {
-                return Outlook.Warm;
-            }
-            if (reading.WindDirection == WindDirection.Westerly)
-            {
-                return Outlook.Rainy;
-            }
-            throw new ArgumentException();
-        }
-    }
-
-    public State RunSelfTest()
-    {
-        if (reading.Equals(new Reading()))
-        {
-            return State.Bad;
-        }
-        else
-        {
-            return State.Good;
-        }
-    }
+    public State RunSelfTest() => reading.Equals(new Reading()) ? State.Bad : State.Good;
 }
 
 /*** Please do not modify this struct ***/
