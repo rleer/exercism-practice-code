@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class WeatherStation
 {
     private Reading reading;
-    private List<DateTime> recordDates = [];
-    private List<decimal> temperatures = [];
+    private List<DateTime> recordDates = new() { };
+    private List<decimal> temperatures = new() { };
 
     public void AcceptReading(Reading reading)
     {
